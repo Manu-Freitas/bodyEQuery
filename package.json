@@ -1,0 +1,22 @@
+{
+  "name": "postman",
+  "version": "1.0.0",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "cls && node server.js"
+  },
+  "keywords": [
+    "Harry Potter",
+    "Bruxaria",
+    "Não é magia, é tecnologia"
+  ],
+  "author": "Manuela Freitas",
+  "license": "MIT",
+  "description": "Projeto de API de bruxos testando GET e POST no POSTMAN",
+  "dependencies": {
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10"
+  }
+}
