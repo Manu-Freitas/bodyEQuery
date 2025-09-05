@@ -45,8 +45,63 @@ app.get("/bruxos", (req, res) => {
     });
 });
 
+app.get("/varinhas", (req, res) => {
+    const { material, nucleo } = req.query;
+    let resultado = varinhas;
 
-    app.get("/bruxos", (req, res) => {
+    if (material) {
+        resultado = resultado.filter((b) => b.material.toLowerCase().includes(material.toLowerCase()));
+    }
+
+     if (nucleo) {
+        resultado = resultado.filter((b) => b.nucleo.toLowerCase().includes(nucleo.toLowerCase()));
+    }
+
+
+    res.status(200).json({
+        total: resultado.length,
+        data: resultado,
+    });
+});
+
+app.get("/pocoes", (req, res) => {
+    const { nome, efeito } = req.query;
+    let resultado = pocoes;
+
+    if (nome) {
+        resultado = resultado.filter((b) => b.nome.toLowerCase().includes(nome.toLowerCase()));
+    }
+
+    if (efeito) {
+        resultado = resultado.filter((b) => b.efeito.toLowerCase().includes(efeito.toLowerCase()));
+    }
+
+    res.status(200).json({
+        total: resultado.length,
+        data: resultado,
+    });
+});
+
+app.get("/animais", (req, res) => {
+    const { tipo, nome } = req.query;
+    let resultado = animais;
+
+    if (tipo) {
+        resultado = resultado.filter((b) => b.tipo.toLowerCase().includes(tipo.toLowerCase()));
+    }
+
+    if (nome) {
+        resultado = resultado.filter((b) => b.nome.toLowerCase().includes(nome.toLowerCase()));
+    }
+
+    res.status(200).json({
+        total: resultado.length,
+        data: resultado,
+    });
+});
+
+
+ app.post("/bruxos", (req, res) => {
         const { nome, casa, ano, varinha, mascote, patrono, especialidade, vivo } = req.body;
 
 
@@ -78,155 +133,31 @@ app.get("/bruxos", (req, res) => {
     });
 });
 
-app.post("/bruxos", (req, res) => {
-    const { nome, casa, ano, varinha, mascote, patrono, especialidade, vivo } = req.body;
-
-
-if (nome === false || !casa) {
-    return res.status(400).json({
-        success: false,
-        message: "Nome e casa são obrigatórios para um bruxo!",
-    });
-}
-
-const novoBruxo ={
-    id : bruxos.lenght + 1,
-    nome,
-    casa: casa,
-    ano: parseInt(ano),
-    varinha: varinha,
-    mascote,
-    patrono,
-    especialidade: especialidade || " Ainda não atribuido!",
-    vivo: vivo
-}
-
-bruxos.push(novoBruxo);
-
-res.status(201).json({
-    sucess: true,
-    message: "Novo bruxo adicionado a Hogwarts!",
-    data: novoBruxo,
-});
-});
 
 app.post("/varinhas", (req, res) => {
-    const { material, nucleo} = req.body;
-    let resultado = varinhas
-
-
-if (nome === false || !casa) {
+    const { material, nucleo, comprimento} = req.body;
+   
+if (!material || !nucleo || !comprimento) {
     return res.status(400).json({
         success: false,
-        message: "Nome e casa são obrigatórios para um bruxo!",
+        message: "Material, nucleo e comprimento são obrigatórios",
     });
 }
 
-const novoBruxo ={
-    id : bruxos.lenght + 1,
-    nome,
-    casa: casa,
-    ano: parseInt(ano),
-    varinha: varinha,
-    mascote,
-    patrono,
-    especialidade: especialidade || " Ainda não atribuido!",
-    vivo: vivo
+const novaVarinha ={
+    id : varinhas.lenght + 1,
+    material,
+    nucleo,
+    comprimento
 }
 
-bruxos.push(novoBruxo);
+varinhas.push(novaVarinha);
 
 res.status(201).json({
     sucess: true,
-    message: "Novo bruxo adicionado a Hogwarts!",
-    data: novoBruxo,
+    message: "Nova varinha adicionada a Hogwarts!",
+    data: novaVarinha,
 });
-});
-
-app.post("/bruxos", (req, res) => {
-    const { nome, casa, ano, varinha, mascote, patrono, especialidade, vivo } = req.body;
-
-
-if (nome === false || !casa) {
-    return res.status(400).json({
-        success: false,
-        message: "Nome e casa são obrigatórios para um bruxo!",
-    });
-}
-
-const novoBruxo ={
-    id : bruxos.lenght + 1,
-    nome,
-    casa: casa,
-    ano: parseInt(ano),
-    varinha: varinha,
-    mascote,
-    patrono,
-    especialidade: especialidade || " Ainda não atribuido!",
-    vivo: vivo
-}
-
-bruxos.push(novoBruxo);
-
-res.status(201).json({
-    sucess: true,
-    message: "Novo bruxo adicionado a Hogwarts!",
-    data: novoBruxo,
-});
-});
-
-app.get("/varinhas", (req, res) => {
-    const { material, nucleo } = req.query;
-    let resultado = varinhas;
-
-    if (material) {
-        resultado = resultado.filter((b) => b.material.toLowerCase().includes(material.toLowerCase()));
-    }
-
-    if (nucleo) {
-        resultado = resultado.filter((b) => b.nucleo == nucleo);
-    }
-
-    res.status(200).json({
-        total: resultado.length,
-        data: resultado,
-    });
-});
-
-app.get("/pocoes", (req, res) => {
-    const { nome, efeito } = req.query;
-    let resultado = pocoes;
-
-    if (nome) {
-        resultado = resultado.filter((b) => b.nome.toLowerCase().includes(nome.toLowerCase()));
-    }
-
-    if (efeito) {
-        resultado = resultado.filter((b) => b.efeito == efeito);
-    }
-
-    res.status(200).json({
-        total: resultado.length,
-        data: resultado,
-    });
-});
-
-app.get("/animais", (req, res) => {
-    const { tipo, nome } = req.query;
-    let resultado = animais;
-
-    if (tipo) {
-        resultado = resultado.filter((b) => b.tipo.toLowerCase().includes(tipo.toLowerCase()));
-    }
-
-    if (nome) {
-        resultado = resultado.filter((b) => b.nome == nome);
-    }
-
-    res.status(200).json({
-        total: resultado.length,
-        data: resultado,
-    });
 });
 // Iniciar servidor escutando na porta definida
 app.listen(serverPort, () => {
